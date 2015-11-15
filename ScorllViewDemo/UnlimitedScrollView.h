@@ -11,10 +11,11 @@
 @class UnlimitedScrollView;
 @protocol UnlimitedScrollViewDelegate <NSObject>
 
-- (void)unlimitedScrollView:(UnlimitedScrollView *)unlimitedScrollView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
-- (void)unlimitedScrollViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath withItemInformation:(NSArray *)inforArray;
-@end
+- (void)unlimitedScrollView:(UnlimitedScrollView *)unlimitedScrollView
+   didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+        withItemInformation:(NSArray *)inforArray;
 
+@end
 
 @interface UnlimitedScrollView : UIView <UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
 
@@ -24,7 +25,7 @@
 //default image
 @property (nonatomic,strong) UIImage *placeHolderImage;
 @property (nonatomic,strong) NSArray *urlStringOfImageArray;
-@property (nonatomic,strong) NSArray *imageArray;
+//@property (nonatomic,strong) NSArray *imageArray;
 
 - (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray andPlaceHolderImage:(UIImage *)placeHolderImage;
 

@@ -29,18 +29,13 @@
     NSArray *array = @[@"1",@"2",@"3"];
     
     UnlimitedScrollView *scrollView = [[UnlimitedScrollView alloc]initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight/3) withImageArray:array andPlaceHolderImage:nil];
-    scrollView.backgroundColor = [UIColor blackColor];
     scrollView.delegate = self;
     [self.view addSubview:scrollView];
 }
 #pragma mark <UnlimitedScrollViewDelegate>
-- (void)unlimitedScrollView:(UnlimitedScrollView *)unlimitedScrollView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)unlimitedScrollView:(UnlimitedScrollView *)unlimitedScrollView didSelectItemAtIndexPath:(NSIndexPath *)indexPath withItemInformation:(NSArray *)inforArray
 {
     NSLog(@"response1");
-}
-- (void)unlimitedScrollViewDidSelectItemAtIndexPath:(NSIndexPath *)indexPath withItemInformation:(NSArray *)inforArray
-{
-    NSLog(@"response2");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

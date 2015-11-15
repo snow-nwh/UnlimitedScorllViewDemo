@@ -38,8 +38,8 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)configUIWithFrame:(CGRect)frame
 {
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-    layout.minimumInteritemSpacing = NO;
-    layout.minimumLineSpacing = NO;
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 0;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
     _collectionview = [[UICollectionView alloc]initWithFrame:frame collectionViewLayout:layout];
@@ -121,6 +121,8 @@ static NSString * const reuseIdentifier = @"Cell";
         }
         else if (_imageArray.count > 1)
         {
+            //
+            collectionView.contentOffset = CGPointMake(collectionView.frame.size.width, 0);
             return _imageArray.count + 2;
         }
     }
@@ -153,10 +155,12 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"clicked :%@",indexPath);
-    NSArray *array;
+    NSArray *array = _imageArray[indexPath.item - 1];
 //    if ([self.delegate performSelector:@selector(unlimitedScrollViewDidSelectItemAtIndexPath:withItemInformation:)])
-        [self.delegate unlimitedScrollViewDidSelectItemAtIndexPath:indexPath withItemInformation:array];
-    [self.delegate unlimitedScrollView:self didSelectItemAtIndexPath:indexPath];
+    [self.delegate unlimitedScrollView:self
+              didSelectItemAtIndexPath:indexPath
+                   withItemInformation:array
+     ];
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
