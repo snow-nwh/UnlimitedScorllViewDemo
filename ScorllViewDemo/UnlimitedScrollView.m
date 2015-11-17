@@ -117,6 +117,9 @@ static NSString * const reuseIdentifier = @"Cell";
     {
         if (_imageArray.count == 1)
         {
+            if (_timer) {
+                [_timer invalidate];
+            }
             return 1;
         }
         else if (_imageArray.count > 1)
@@ -151,7 +154,7 @@ static NSString * const reuseIdentifier = @"Cell";
     return cell;
 }
 
-#pragma mark <UICollectionViewDelegateFlowLayout>
+#pragma mark <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"clicked :%@",indexPath);

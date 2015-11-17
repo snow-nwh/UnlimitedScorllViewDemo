@@ -26,7 +26,7 @@
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
     
-    NSArray *array = @[@"1",@"2",@"3"];
+    NSArray *array = @[@"1"];//@[@"1",@"2",@"3"];
     
     UnlimitedScrollView *scrollView = [[UnlimitedScrollView alloc]initWithFrame:CGRectMake(0, 0, viewWidth, viewHeight/3) withImageArray:array andPlaceHolderImage:nil];
     scrollView.delegate = self;
