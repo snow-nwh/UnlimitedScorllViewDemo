@@ -157,11 +157,22 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDelegate>
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"clicked :%@",indexPath);
-    NSArray *array = _imageArray[indexPath.item - 1];
-//    if ([self.delegate performSelector:@selector(unlimitedScrollViewDidSelectItemAtIndexPath:withItemInformation:)])
+    NSArray *array = nil;
+    NSIndexPath *newIndexPath;
+    if (_imageArray.count == 1)
+    {
+        array = _imageArray[0];
+        newIndexPath = [NSIndexPath indexPathForItem:indexPath.item  inSection:0];
+    }
+    else
+    {
+        array = _imageArray[indexPath.item - 1];
+        newIndexPath = [NSIndexPath indexPathForItem:indexPath.item - 1 inSection:0];
+    }
+    
+    if ([self.delegate respondsToSelector:@selector(unlimitedScrollView:didSelectItemAtIndexPath:withItemInformation:)])
     [self.delegate unlimitedScrollView:self
-              didSelectItemAtIndexPath:indexPath
+              didSelectItemAtIndexPath:newIndexPath
                    withItemInformation:array
      ];
 }

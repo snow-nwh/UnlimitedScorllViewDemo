@@ -35,7 +35,7 @@
 #pragma mark <UnlimitedScrollViewDelegate>
 - (void)unlimitedScrollView:(UnlimitedScrollView *)unlimitedScrollView didSelectItemAtIndexPath:(NSIndexPath *)indexPath withItemInformation:(NSArray *)inforArray
 {
-    NSLog(@"response1");
+    NSLog(@"clicked :%@",indexPath);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
