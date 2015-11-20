@@ -21,13 +21,14 @@
 
 //delegate
 @property (nonatomic,weak) id<UnlimitedScrollViewDelegate> delegate;
-//@property (nonatomic,assign) CGRect frame;
 //default image
+#warning message - 没有必要重写frame
 @property (nonatomic,strong) UIImage *placeHolderImage;
-@property (nonatomic,strong) NSArray *urlStringOfImageArray;
-//@property (nonatomic,strong) NSArray *imageArray;
+@property (nonatomic,strong) NSArray *imageArray;
 
+- (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray;
 - (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray andPlaceHolderImage:(UIImage *)placeHolderImage;
 
++ (instancetype)unlimitedScrolllViewWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray;
 
 @end

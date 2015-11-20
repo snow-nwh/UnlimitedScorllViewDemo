@@ -16,21 +16,66 @@ static NSString * const reuseIdentifier = @"Cell";
     UIPageControl *_pageControl;
     NSTimer *_timer;
     
-    NSArray *_imageArray;
+    NSArray *_dateArray;
 }
-
-//- (void)setFrame:(CGRect)frame
+#pragma mark - 类方法
++ (instancetype)unlimitedScrolllViewWithFrame:(CGRect)frame andImageArray:(NSArray *)imageArray
+{
+    UnlimitedScrollView *unlimitedScrollView;
+    if (!unlimitedScrollView) {
+        unlimitedScrollView = [[UnlimitedScrollView alloc]initWithFrame:frame withImageArray:imageArray];
+    }
+    return unlimitedScrollView;
+}
+#pragma mark - set方法
+//-(void)setFrame:(CGRect)frame
 //{
 //    _frame = frame;
+//    [self configUIWithFrame:frame];
 //}
-
-- (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray andPlaceHolderImage:(UIImage *)placeHolderImage
+- (void)setImageArray:(NSArray *)imageArray
 {
-    self = [super init];
+    _imageArray = imageArray;
+    _dateArray = imageArray;
+    [self configUIWithFrame:self.frame];
+//    [_collectionview reloadData];
+}
+- (void)setPlaceHolderImage:(UIImage *)placeHolderImage
+{
+    _placeHolderImage = placeHolderImage;
+    //xxx
+}
+#pragma mark - 减方法初始化
+//-(instancetype)init
+//{
+//    if (self = [super init]) {
+//        [self configUIWithFrame:CGRectZero];
+//    }
+//    return self;
+//}
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
     if (self) {
-        self.frame = frame;
+        [self configUIWithFrame:frame];
+    }
+    return self;
+}
+- (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        _dateArray = imageArray;
         _imageArray = imageArray;
         [self configUIWithFrame:frame];
+    }
+    return self;
+}
+- (instancetype)initWithFrame:(CGRect)frame withImageArray:(NSArray *)imageArray andPlaceHolderImage:(UIImage *)placeHolderImage
+{
+    self = [self initWithFrame:frame withImageArray:imageArray];
+    if (self) {
+        _placeHolderImage = placeHolderImage;
     }
     return self;
 }
@@ -55,7 +100,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
     _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake(frame.size.width/4, frame.size.height-10, frame.size.width/2, 5)];
     _pageControl.hidesForSinglePage = YES;
-    _pageControl.numberOfPages = _imageArray.count;
+    _pageControl.numberOfPages = _dateArray.count;
     _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
     _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
     [self addSubview:_pageControl];
@@ -80,7 +125,7 @@ static NSString * const reuseIdentifier = @"Cell";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     //滚动到最后一张时，将偏移量调整为 第二张的偏移量
-    if (_collectionview.contentOffset.x == self.frame.size.width * (_imageArray.count + 1))
+    if (_collectionview.contentOffset.x == self.frame.size.width * (_dateArray.count + 1))
     {
         CGPoint contentOffSet = CGPointZero;
         contentOffSet.x += self.frame.size.width;
@@ -90,7 +135,7 @@ static NSString * const reuseIdentifier = @"Cell";
     if (_collectionview.contentOffset.x == 0)
     {
         CGPoint contentOffSet = CGPointZero;
-        contentOffSet.x += self.frame.size.width * (_imageArray.count);
+        contentOffSet.x += self.frame.size.width * (_dateArray.count);
         _collectionview.contentOffset = contentOffSet;
     }
 }
@@ -112,35 +157,35 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    _pageControl.numberOfPages = _imageArray.count;
-    if (_imageArray.count)
+    _pageControl.numberOfPages = _dateArray.count;
+    if (_dateArray.count)
     {
-        if (_imageArray.count == 1)
+        if (_dateArray.count == 1)
         {
             if (_timer) {
                 [_timer invalidate];
             }
             return 1;
         }
-        else if (_imageArray.count > 1)
+        else if (_dateArray.count > 1)
         {
             //
             collectionView.contentOffset = CGPointMake(collectionView.frame.size.width, 0);
-            return _imageArray.count + 2;
+            return _dateArray.count + 2;
         }
     }
     return 0;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.item == 0 || indexPath.item == _imageArray.count ) {
+    if (indexPath.item == 0 || indexPath.item == _dateArray.count ) {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.frame];
         cell.backgroundColor = [UIColor cyanColor];
         [cell.contentView addSubview:imageView];
         return cell;
     }
-    if (indexPath.item == _imageArray.count + 1|| indexPath.item == 1) {
+    if (indexPath.item == _dateArray.count + 1|| indexPath.item == 1) {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
         UIImageView *imageView = [[UIImageView alloc]initWithFrame:self.frame];
         cell.backgroundColor = [UIColor yellowColor];
@@ -159,14 +204,14 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     NSArray *array = nil;
     NSIndexPath *newIndexPath;
-    if (_imageArray.count == 1)
+    if (_dateArray.count == 1)
     {
-        array = _imageArray[0];
+        array = _dateArray[0];
         newIndexPath = [NSIndexPath indexPathForItem:indexPath.item  inSection:0];
     }
     else
     {
-        array = _imageArray[indexPath.item - 1];
+        array = _dateArray[indexPath.item - 1];
         newIndexPath = [NSIndexPath indexPathForItem:indexPath.item - 1 inSection:0];
     }
     
